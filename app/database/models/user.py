@@ -10,7 +10,11 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
     active = Column(Boolean, default=True)
-    
-    
 # relacionamento com tarefas
-    tasks = relationship("Task", back_populates="owner", cascade="all, delete-orphan")
+    tasks = relationship("Task", back_populates="user", cascade="all, delete-orphan")
+    
+    def __init__(self, name: str, email: str, password: str, active: bool = True):
+        self.name = name
+        self.email = email
+        self.password = password
+        self.active = active

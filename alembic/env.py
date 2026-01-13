@@ -10,7 +10,8 @@ from alembic import context
 config = context.config
 
 from app.database.base import Base
-from app.database.models import User
+from app.database.models.user import User
+from app.database.models.task import Task
 import os
 from dotenv import load_dotenv
 
