@@ -2,18 +2,18 @@
 from pydantic import BaseModel, Field
 from pydantic.networks import EmailStr
 
-class CreateSchema(BaseModel):
+class UserCreate(BaseModel):
     name: str = Field(min_length=2)
     email: EmailStr
     password: str = Field(min_length=8)
     
         
-class LoginSchema(BaseModel):
+class UserLogin(BaseModel):
     email: EmailStr
     password: str
     
 
-class UserSchema(BaseModel):
+class UserResponse(BaseModel):
     id: int
     name: str
     email: EmailStr
