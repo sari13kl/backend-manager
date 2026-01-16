@@ -8,13 +8,17 @@ from sqlalchemy.orm import Session
 from core.config import settings
 from core.security import verify_password
 from core.jwt_model import TokenData
+from repositories.user_repository import UserRepository
 from database.session import get_db
 from database.models.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-def autenticar_usuario(email: str, password: str, db: Session):
-    user = db.query(User).filter(User.email == email).first()
+
+def autenticar_usuario(db: Session, email: str, password: str):
+    user_repo = UserRepository(db)
+    user = user_repo.get_user_by_email(email)
+    
     if not user:
         return None
     if not verify_password(password, user.password):
@@ -41,7 +45,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         token_data = TokenData(id=id_usuario)
     except JWTError:
         raise credentials_exception
-    user = db.query(User).filter(User.id == token_data.id).first()
+    
+    user_repo = UserRepository(db)
+    user = user_repo.get_user_by_id(int(token_data.id))
     if user is None:
         raise credentials_exception
     return user
