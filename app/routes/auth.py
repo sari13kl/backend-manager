@@ -3,7 +3,6 @@ from sqlalchemy.orm import sessionmaker
 from app.core.config import Settings
 from app.database.session import get_db
 from app.database.models.user import User
-from app.schemas.user import CreateSchema, LoginSchema
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordRequestForm

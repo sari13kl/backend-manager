@@ -2,7 +2,7 @@
 from sqlalchemy.orm import Session
 from repositories.user_repository import UserRepository
 from database.models.user import User
-from core.security import get_password_hash
+from core.security import hash_password
 
 class UserService:
     def __init__(self, db: Session):
@@ -16,7 +16,7 @@ class UserService:
         if name is not None:
             user.name = name
         if password is not None:
-            user.password = password_hash(password)
+            user.password = hash_password(password)
         
         self.repo.db.commit()
         self.repo.db.refresh(user)
